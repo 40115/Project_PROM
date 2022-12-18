@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import edu.ufp.pam2022.project.R
 import edu.ufp.pam2022.project.databinding.ActivityLoginMainBinding
+import edu.ufp.pam2022.project.library.User
 import edu.ufp.pam2022.project.main.login.ui.Registration.RegisterActivity
 import edu.ufp.pam2022.project.services.SoundService
 
@@ -29,12 +30,12 @@ class LoginMainActivity : AppCompatActivity() {
         binding = ActivityLoginMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val username = binding.email
+        val email = binding.email
         val password = binding.password
         val login = binding.LogIn
         val loading = binding.loading
 
-        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())[LoginViewModel::class.java]
+        loginViewModel = ViewModelProvider(this, LoginViewModelFactory(this))[LoginViewModel::class.java]
 
         loginViewModel.loginFormState.observe(this@LoginMainActivity, Observer {
             val loginState = it ?: return@Observer
@@ -42,8 +43,8 @@ class LoginMainActivity : AppCompatActivity() {
             // disable login button unless both username / password is valid
             login.isEnabled = loginState.isDataValid
 
-            if (loginState.usernameError != null) {
-                username.error = getString(loginState.usernameError)
+            if (loginState.EmailError != null) {
+                email.error = getString(loginState.EmailError)
             }
             if (loginState.passwordError != null) {
                 password.error = getString(loginState.passwordError)
@@ -70,9 +71,9 @@ class LoginMainActivity : AppCompatActivity() {
             setAction("0"));
 
 
-        username.afterTextChanged {
+        email.afterTextChanged {
             loginViewModel.loginDataChanged(
-                username.text.toString(),
+                email.text.toString(),
                 password.text.toString()
             )
         }
@@ -80,7 +81,7 @@ class LoginMainActivity : AppCompatActivity() {
         password.apply {
             afterTextChanged {
                 loginViewModel.loginDataChanged(
-                    username.text.toString(),
+                    email.text.toString(),
                     password.text.toString()
                 )
             }
@@ -89,7 +90,7 @@ class LoginMainActivity : AppCompatActivity() {
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
                         loginViewModel.login(
-                            username.text.toString(),
+                            email.text.toString(),
                             password.text.toString()
                         )
                 }
@@ -98,14 +99,14 @@ class LoginMainActivity : AppCompatActivity() {
 
             login.setOnClickListener {
                 loading.visibility = View.VISIBLE
-                loginViewModel.login(username.text.toString(), password.text.toString())
+                loginViewModel.login(email.text.toString(), password.text.toString())
             }
         }
     }
 
-    private fun updateUiWithUser(model: LoggedInUserView) {
+    private fun updateUiWithUser(model: User) {
         val welcome = getString(R.string.welcome)
-        val displayName = model.displayName
+        val displayName = model.Username
         // TODO : initiate successful logged in experience
         Toast.makeText(
             applicationContext,
@@ -118,10 +119,11 @@ class LoginMainActivity : AppCompatActivity() {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
 
-    fun RegisterMessage(view: View) {
+    fun registerMessage(view: View) {
         val switchActivityIntent = Intent(this, RegisterActivity::class.java)
         startActivity(switchActivityIntent)
     }
+
 }
 /**
  * Extension function to simplify setting an afterTextChanged action to EditText components.

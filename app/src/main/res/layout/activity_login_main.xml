@@ -78,7 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="75dp"
-        android:onClick="RegisterMessage"
+        android:onClick="registerMessage"
         android:text="@string/action_Register"
         android:textColor="#00E676"
         app:layout_constraintEnd_toEndOf="@+id/LogIn"

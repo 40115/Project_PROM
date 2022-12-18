@@ -7,6 +7,7 @@ import edu.ufp.pam2022.project.main.login.ui.login.LoginMainActivity
 
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val intent = Intent(this@MainActivity, LoginMainActivity::class.java)

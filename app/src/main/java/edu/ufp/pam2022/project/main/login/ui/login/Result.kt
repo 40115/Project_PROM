@@ -1,4 +1,4 @@
-package edu.ufp.pam2022.project.main.login.data
+package edu.ufp.pam2022.project.main.login.ui.login
 
 /**
  * A generic class that holds a value with its loading status.

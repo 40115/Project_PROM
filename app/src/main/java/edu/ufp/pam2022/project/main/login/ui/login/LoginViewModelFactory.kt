@@ -1,22 +1,21 @@
 package edu.ufp.pam2022.project.main.login.ui.login
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import edu.ufp.pam2022.project.main.login.data.LoginDataSource
-import edu.ufp.pam2022.project.main.login.data.LoginRepository
+import edu.ufp.pam2022.project.services.HttpService
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.
  * Required given LoginViewModel has a non-empty constructor
  */
-class LoginViewModelFactory : ViewModelProvider.Factory {
-
+class LoginViewModelFactory(private val app: AppCompatActivity) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
             return LoginViewModel(
-                loginRepository = LoginRepository(
-                    dataSource = LoginDataSource()
+                loginRepository = HttpService(
+                    app
                 )
             ) as T
         }
