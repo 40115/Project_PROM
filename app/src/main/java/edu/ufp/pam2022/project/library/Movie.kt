@@ -1,16 +1,12 @@
 package edu.ufp.pam2022.project.library
 
-import android.media.Rating
-import java.sql.Date
+import java.time.LocalDate
 
 data class Movie(
     var MovieId: Int,
     var Name: String,
-    var Synopsis: String,
-    var ReleaseDate: Date,
+    var ReleaseDate: LocalDate,
     var ImbRating: Int,
-    var runTime: Date,
-    var cover: String,
-    var ageRatingId: AgeRating,
-    var imbUrl: String
+    var runTime: String,
+    var ageRatingId: String,
                  )

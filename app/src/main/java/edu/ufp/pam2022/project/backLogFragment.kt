@@ -1,26 +1,26 @@
 package edu.ufp.pam2022.project
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import edu.ufp.pam2022.project.library.Backlog
 import edu.ufp.pam2022.project.library.Movie
-
+import edu.ufp.pam2022.project.placeholder.PlaceholderContent
 
 /**
  * A fragment representing a list of Items.
  */
-class MovieFragment(Movies: List<Movie>) : Fragment() {
+class backLogFragment(backlog: List<Backlog>)  : Fragment() {
 
     private var columnCount = 1
-    private var movies:List<Movie>
+    private var Backlog:List<Backlog>
     init {
-      movies=Movies;
+        Backlog=backlog
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,37 +30,34 @@ class MovieFragment(Movies: List<Movie>) : Fragment() {
         }
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_movie_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_back_log_list, container, false)
 
+        // Set the adapter
         if (view is RecyclerView) {
             with(view) {
                 layoutManager = when {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyItemRecyclerViewAdapter(movies)
+                adapter = MyItemRecyclerViewAdapter2(Backlog)
             }
         }
-
         return view
     }
 
-
-
     companion object {
 
-
+        // TODO: Customize parameter argument names
         const val ARG_COLUMN_COUNT = "column-count"
 
-
+        // TODO: Customize parameter initialization
         @JvmStatic
-        fun newInstance(columnCount: Int,movies:List<Movie>) =
-            MovieFragment(movies).apply {
+        fun newInstance(columnCount: Int,backlog: List<Backlog>) =
+            backLogFragment(backlog).apply {
                 arguments = Bundle().apply {
                     putInt(ARG_COLUMN_COUNT, columnCount)
                 }

@@ -3,28 +3,25 @@ package edu.ufp.pam2022.project.main.login.ui.Registration
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import edu.ufp.pam2022.project.databinding.ActivityRegisterBinding
-import edu.ufp.pam2022.project.main.login.ui.login.LoginMainActivity
-import edu.ufp.pam2022.project.main.login.ui.login.LoginViewModel
-import edu.ufp.pam2022.project.main.login.ui.login.LoginViewModelFactory
-import androidx.lifecycle.Observer
-import edu.ufp.pam2022.project.R
 import edu.ufp.pam2022.project.library.User
+import edu.ufp.pam2022.project.main.login.ui.login.LoginMainActivity
 import edu.ufp.pam2022.project.main.login.ui.login.afterTextChanged
 import edu.ufp.pam2022.project.services.SoundService
+
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var registerViewModel: RegisterViewModel
     private lateinit var binding:ActivityRegisterBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
@@ -35,7 +32,7 @@ class RegisterActivity : AppCompatActivity() {
         val register = binding.Register
         val loading = binding.loading
 
-        registerViewModel = ViewModelProvider(this, LoginViewModelFactory(this))[registerViewModel::class.java]
+        registerViewModel = ViewModelProvider(this, RegisterViewModelFactory(this))[RegisterViewModel::class.java]
 
         registerViewModel.loginFormState.observe(this@RegisterActivity, Observer {
             val loginState = it ?: return@Observer
@@ -44,7 +41,7 @@ class RegisterActivity : AppCompatActivity() {
             register.isEnabled = loginState.isDataValid
 
             if (loginState.UsernameError != null) {
-                email.error = getString(loginState.UsernameError)
+               username.error = getString(loginState.UsernameError)
             }
 
             if (loginState.EmailError != null) {
@@ -63,7 +60,7 @@ class RegisterActivity : AppCompatActivity() {
                 showregisterfail(loginResult.error)
             }
             if (loginResult.success != null) {
-                updateUiWithUser(loginResult.success)
+                updateUiWithUser(loginResult.success!!)
             }
             setResult(Activity.RESULT_OK)
 
@@ -74,6 +71,13 @@ class RegisterActivity : AppCompatActivity() {
         startService(Intent(this, SoundService::class.java).
         setAction("0"));
 
+        username.afterTextChanged {
+            registerViewModel.registerDataChanged(
+                username.text.toString(),
+                email.text.toString(),
+                password.text.toString()
+            )
+        }
         email.afterTextChanged {
             registerViewModel.registerDataChanged(
                 username.text.toString(),
@@ -95,7 +99,7 @@ class RegisterActivity : AppCompatActivity() {
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
                         registerViewModel.register(
-                            register.text.toString(),
+                            username.text.toString(),
                             email.text.toString(),
                             password.text.toString()
                         )
@@ -105,33 +109,37 @@ class RegisterActivity : AppCompatActivity() {
 
            register.setOnClickListener {
                 loading.visibility = View.VISIBLE
-                registerViewModel .register(register.text.toString(),email.text.toString(), password.text.toString())
+                registerViewModel .register(username.text.toString(),email.text.toString(), password.text.toString())
             }
         }
 
     }
 
     private fun updateUiWithUser(model: User) {
-        val welcome = getString(R.string.welcome)
-        val displayName = model.Username
-        // TODO : initiate successful logged in experience
-        Toast.makeText(
-            applicationContext,
-            "$welcome $displayName",
-            Toast.LENGTH_LONG
-        ).show()
+        val myToast=Toast.makeText(applicationContext,"You have registered sucessefully",Toast.LENGTH_SHORT)
+        myToast.setGravity(Gravity.START,200,200)
+        myToast.show()
+        Thread.sleep(5_000)
+        loginMessage(View(this))
     }
 
-    private fun showregisterfail(@StringRes errorString: Int) {
-        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+    private fun showregisterfail( errorString: Int) {
+        val myToast=Toast.makeText(applicationContext,"You have failed",Toast.LENGTH_SHORT)
+        myToast.setGravity(Gravity.START,200,200)
+        myToast.show()
+        Thread.sleep(5_000)
+        val intent = intent
+        finish()
+        startActivity(intent)
     }
     /**
      * Extension function to simplify setting an afterTextChanged action to EditText components.
      */
-    fun loginMessage() {
+    fun loginMessage(view: View) {
         val switchActivityIntent = Intent(this, LoginMainActivity::class.java)
         startActivity(switchActivityIntent)
     }
+
 }
 
 

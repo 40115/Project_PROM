@@ -53,6 +53,12 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
     //Support for CameraX
+   def core_version = "1.6.0"
+    dependencies {
+        implementation("androidx.core:core-ktx:$core_version")
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+
+    }
 
     def room_version = '2.4.3'
     implementation "androidx.room:room-runtime:$room_version"
@@ -74,6 +80,25 @@ dependencies {
     androidTestImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0'
     androidTestImplementation 'org.mockito:mockito-android:2.23.4'
     testImplementation 'org.mockito:mockito-core:2.23.4'
+    def nav_version = "2.5.3"
+
+    // Java language implementation
+    implementation("androidx.navigation:navigation-fragment:$nav_version")
+    implementation("androidx.navigation:navigation-ui:$nav_version")
+
+    // Kotlin
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+
+    // Feature module Support
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
+
+    // Testing Navigation
+    androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
+
+    // Jetpack Compose Integration
+    implementation("androidx.navigation:navigation-compose:$nav_version")
+
     //Worker threads stuff
     def work_version = "2.7.1"
     // (Java only)

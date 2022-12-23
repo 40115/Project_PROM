@@ -13,18 +13,17 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import edu.ufp.pam2022.project.R
 import edu.ufp.pam2022.project.databinding.ActivityLoginMainBinding
 import edu.ufp.pam2022.project.library.User
+import edu.ufp.pam2022.project.listMovie.MainMovieFragments
 import edu.ufp.pam2022.project.main.login.ui.Registration.RegisterActivity
 import edu.ufp.pam2022.project.services.SoundService
 
 
 class LoginMainActivity : AppCompatActivity() {
 
-    private lateinit var loginViewModel: LoginViewModel
+   private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginMainBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginMainBinding.inflate(layoutInflater)
@@ -34,7 +33,6 @@ class LoginMainActivity : AppCompatActivity() {
         val password = binding.password
         val login = binding.LogIn
         val loading = binding.loading
-
         loginViewModel = ViewModelProvider(this, LoginViewModelFactory(this))[LoginViewModel::class.java]
 
         loginViewModel.loginFormState.observe(this@LoginMainActivity, Observer {
@@ -59,7 +57,7 @@ class LoginMainActivity : AppCompatActivity() {
                 showLoginFailed(loginResult.error)
             }
             if (loginResult.success != null) {
-                updateUiWithUser(loginResult.success)
+                updateUiWithUser(loginResult.success!!)
             }
             setResult(Activity.RESULT_OK)
 
@@ -105,24 +103,28 @@ class LoginMainActivity : AppCompatActivity() {
     }
 
     private fun updateUiWithUser(model: User) {
-        val welcome = getString(R.string.welcome)
-        val displayName = model.Username
-        // TODO : initiate successful logged in experience
-        Toast.makeText(
-            applicationContext,
-            "$welcome $displayName",
-            Toast.LENGTH_LONG
-        ).show()
+        val switchActivityIntent = Intent(this, MainMovieFragments::class.java)
+        switchActivityIntent.putExtra("Username",model.Username)
+        switchActivityIntent.putExtra("UserId",model.UserId)
+        switchActivityIntent.putExtra("Email",model.Email)
+        startActivity(switchActivityIntent)
     }
 
-    private fun showLoginFailed(@StringRes errorString: Int) {
+    private fun showLoginFailed( errorString: Int) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+        val intent = intent
+        finish()
+        startActivity(intent)
+
     }
 
     fun registerMessage(view: View) {
         val switchActivityIntent = Intent(this, RegisterActivity::class.java)
         startActivity(switchActivityIntent)
     }
+
+
+
 
 }
 /**
