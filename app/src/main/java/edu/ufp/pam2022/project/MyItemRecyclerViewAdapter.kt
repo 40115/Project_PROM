@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import edu.ufp.pam2022.project.databinding.FragmentMovieBinding
 import edu.ufp.pam2022.project.library.Movie
+import java.sql.Date
 
 /**
  * [RecyclerView.Adapter] that can display a [Movie].
@@ -16,19 +17,20 @@ import edu.ufp.pam2022.project.library.Movie
 class MyItemRecyclerViewAdapter(private val values: List<Movie>) : RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
+        
         return ViewHolder(
             FragmentMovieBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
         )
-
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         val item = values[position]
         holder.idView.text = item.MovieId.toString()
         holder.contentView.text = item.Name
+        holder.date.text= item.ReleaseDate.toString()
 
     }
 
@@ -38,6 +40,8 @@ class MyItemRecyclerViewAdapter(private val values: List<Movie>) : RecyclerView.
 
         val idView: TextView = binding.MovieId
         val contentView: TextView = binding.MovieName
+        val date: TextView =binding.MovieDateRelease
+
         override fun toString(): String {
             return super.toString() + " '" + contentView.text + "'"
         }

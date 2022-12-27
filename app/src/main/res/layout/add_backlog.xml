@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/popup_window"
+    android:layout_width="560dp"
+    android:layout_height="400dp"
+    android:background="#62def8"
+    android:translationX="50dp"
+    android:translationY="100dp">
+
+    <TextView
+        android:id="@+id/popup_Movie_Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        android:text="@string/this_is_a_popup_window"
+        android:textSize="22sp" />
+
+    <EditText
+        android:id="@+id/popup_Movie_rating_input"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="92dp"
+        android:autofillHints="@string/prompt_email"
+        android:hint="@string/rating"
+        android:inputType="textEmailAddress"
+        android:minHeight="48dp"
+        android:selectAllOnFocus="true"
+        android:textColorHint="#004D40"
+        android:translationX="30dp"
+        android:translationY="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/id_date_rel"
+        android:layout_width="197dp"
+        android:layout_height="48dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:inputType="datetime"
+        android:textColorHint="#546E7A"
+        android:translationX="30dp"
+        android:translationY="75dp" />
+
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_marginTop="50dp"
+        android:translationX="0dp"
+        android:translationY="200dp">
+
+        <RadioButton
+            android:id="@+id/button1"
+            android:layout_width="5dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:text="@string/watching" />
+
+        <RadioButton
+            android:id="@+id/button2"
+            android:layout_width="5dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:text="@string/plan_to_watch" />
+
+        <RadioButton
+            android:id="@+id/button3"
+            android:layout_width="5dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:text="@string/completed" />
+
+        <RadioButton
+            android:id="@+id/button4"
+            android:layout_width="5dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:text="@string/rewatching" />
+
+        <RadioButton
+            android:id="@+id/button5"
+            android:layout_width="5dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:text="@string/paused" />
+
+        <RadioButton
+            android:id="@+id/button6"
+            android:layout_width="5dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:text="@string/dropped"
+            android:textColor="#455A64" />
+
+    </TableRow>
+
+    <Button
+        android:id="@+id/pop_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add"
+        android:translationX="230dp"
+        android:translationY="340dp" />
+
+</RelativeLayout>

@@ -1,13 +1,12 @@
 package edu.ufp.pam2022.project.listMovie
 
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.widget.PopupMenu
-import android.widget.Toast
+import android.view.*
+import android.view.inputmethod.InputMethodManager
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +18,9 @@ import edu.ufp.pam2022.project.R
 import edu.ufp.pam2022.project.databinding.ActivityMainMovieFragmentsBinding
 import edu.ufp.pam2022.project.library.User
 import edu.ufp.pam2022.project.main.login.ui.login.LoginMainActivity
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class MainMovieFragments : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
@@ -29,6 +31,7 @@ class MainMovieFragments : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainMovieFragmentsBinding.inflate(layoutInflater)
+        val stringinput = binding.inputString
         setContentView(binding.root)
         user=User(intent.getIntExtra("UserId",0),
             intent.getStringExtra("Username").toString(),
@@ -42,33 +45,210 @@ class MainMovieFragments : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
 
          scrollingProjectActivityViewModel = ViewModelProvider(this, ScrollingProjectActivityViewModelFactory(this))[ScrollingProjectActivityViewModel::class.java]
          scrollingProjectActivityViewModel.Get_Movies()
+         scrollingProjectActivityViewModel.Get_Backlog_By_Id(user.UserId)
         val reclird = findViewById<View>(R.id.ReclienerMovies) as RecyclerView
-        val id=binding.navigationView
+        val button:Button=findViewById(R.id.button_Input)
+        reclird.layoutManager=LinearLayoutManager(this)
 
          scrollingProjectActivityViewModel.Movies.observe(this@MainMovieFragments, Observer
          {
             val loginState = it ?: return@Observer
 
-             if (loginState.isNotEmpty()){
+             if (loginState.isNotEmpty()&& movie){
                      val myItemRecyclerViewAdapter=
                          MyItemRecyclerViewAdapter(loginState)
                      reclird.adapter=myItemRecyclerViewAdapter
-                     reclird.layoutManager=LinearLayoutManager(this)
-
                  }
+             else
+                 {
+
+             }
          })
+
         scrollingProjectActivityViewModel.Backlog.observe(this@MainMovieFragments, Observer
         {
             val loginState = it ?: return@Observer
-            if (loginState.isNotEmpty() ) {
+            if (loginState.isNotEmpty() && !movie) {
                 val myItemRecyclerViewAdapter2=
                     MyItemRecyclerViewAdapter2(loginState)
                 reclird.adapter=myItemRecyclerViewAdapter2
                 reclird.layoutManager=LinearLayoutManager(this)
+
+            }
+            else
+            {
+
             }
 
 
         })
+
+
+
+        button.setOnClickListener {
+            val inputRec=stringinput.text.toString()
+            if (inputRec.isEmpty()){
+                Toast.makeText(this,"String Empty", Toast.LENGTH_SHORT).show()
+            }
+            else
+            {
+                val movies=  scrollingProjectActivityViewModel.Movies.value
+                if (movies != null) {
+                    for (i in movies.indices) {
+                        if (movies[i].Name==inputRec){
+                            val inflater =
+                                getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                            val popupView: View = inflater.inflate(R.layout.add_backlog,null)
+
+                            // create the popup window
+                            val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                            imm.hideSoftInputFromWindow(currentFocus?.windowToken  , 0)
+                            // create the popup window
+                            val width = LinearLayout.LayoutParams.MATCH_PARENT
+                            val height = LinearLayout.LayoutParams.MATCH_PARENT
+                            val focusable = true // lets taps outside the popup also dismiss it
+
+                            val popupWindow = PopupWindow(popupView, width, height, focusable)
+
+                            popupWindow.showAtLocation(this.currentFocus, Gravity.CENTER, 0, 0)
+                            val tex = popupWindow.contentView.findViewById<TextView>(R.id.popup_Movie_Name)
+                            tex.text = inputRec
+                            val but = popupWindow.contentView.findViewById<Button>(R.id.pop_button)
+
+                            val userstatus1 = popupWindow.contentView.findViewById<RadioButton>(R.id.button1)
+                            val userstatus2 = popupWindow.contentView.findViewById<RadioButton>(R.id.button2)
+                            val userstatus3 = popupWindow.contentView.findViewById<RadioButton>(R.id.button3)
+                            val userstatus4 = popupWindow.contentView.findViewById<RadioButton>(R.id.button4)
+                            val userstatus5 = popupWindow.contentView.findViewById<RadioButton>(R.id.button5)
+                            val userstatus6 = popupWindow.contentView.findViewById<RadioButton>(R.id.button6)
+
+                            var bool1 = false
+                            var bool2 = false
+                            var bool3 = false
+                            var bool4 = false
+                            var bool5 = false
+                            var bool6 = false
+
+                            userstatus1.setOnClickListener(){
+                                if (bool1){
+                                    userstatus1.isChecked=false
+                                    bool1=false
+                                }
+                                else
+                                {
+                                    userstatus1.isChecked=true
+                                    bool1=true
+                                }
+                            }
+
+                            userstatus2.setOnClickListener(){
+                                if (bool2){
+                                    userstatus2.isChecked=false
+                                    bool2=false
+                                }
+                                else
+                                {
+                                    userstatus2.isChecked=true
+                                    bool2=true
+                                }
+                            }
+
+                            userstatus3.setOnClickListener(){
+                                if (bool3){
+                                    userstatus3.isChecked=false
+                                    bool3=false
+                                }
+                                else
+                                {
+                                    userstatus3.isChecked=true
+                                    bool3=true
+                                }                            }
+
+                            userstatus4.setOnClickListener(){
+                                if (bool4){
+                                    userstatus4.isChecked=false
+                                    bool4=false
+                                }
+                                else
+                                {
+                                    userstatus4.isChecked=true
+                                    bool4=true
+                                }
+                            }
+
+                            userstatus5.setOnClickListener(){
+                                if (bool5){
+                                    userstatus5.isChecked=false
+                                    bool5=false
+                                }
+                                else
+                                {
+                                    userstatus5.isChecked=true
+                                    bool5=true
+                                }                            }
+
+                            userstatus6.setOnClickListener(){
+                                if (bool6){
+                                    userstatus6.isChecked=false
+                                    bool6=false
+                                }
+                                else
+                                {
+                                    userstatus6.isChecked=true
+                                    bool6=true
+                                }
+                            }
+
+                            but.setOnClickListener(){
+                                val date = popupWindow.contentView.findViewById<TextView>(R.id.id_date_rel)
+                                val impleDateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                                val localDateTime = LocalDateTime.parse(date.text, impleDateFormat)
+                                val userrating = popupWindow.contentView.findViewById<TextView>(R.id.popup_Movie_rating_input)
+                                for (j in 1 until 7) {
+                                    when(j){
+                                        1 ->{
+                                          if ( bool1 )  {
+                                              scrollingProjectActivityViewModel.Insert_Backlog(user.UserId,movies[i].MovieId, localDateTime.toString(),Integer.parseInt(userrating.text.toString()),1)
+                                          }
+                                        }
+                                        2 ->{
+                                            if ( bool2)  {
+                                                scrollingProjectActivityViewModel.Insert_Backlog(user.UserId,movies[i].MovieId, date.text.toString(),Integer.parseInt(userrating.text.toString()),2)
+                                            }
+                                        }
+                                        3 ->{
+                                            if ( bool3 )  {
+                                                scrollingProjectActivityViewModel.Insert_Backlog(user.UserId,movies[i].MovieId, date.text.toString(),Integer.parseInt(userrating.text.toString()),3)
+                                            }
+                                        }
+                                        4 ->{
+                                            if ( bool4 )  {
+                                                scrollingProjectActivityViewModel.Insert_Backlog(user.UserId,movies[i].MovieId, date.text.toString(),Integer.parseInt(userrating.text.toString()),4)
+                                            }
+                                        }
+                                        5 ->{
+                                            if ( bool5 )  {
+                                                scrollingProjectActivityViewModel.Insert_Backlog(user.UserId,movies[i].MovieId, date.text.toString(),Integer.parseInt(userrating.text.toString()),5)
+                                            }
+                                        }
+                                        6 ->{
+                                            if ( bool6 )  {
+                                                scrollingProjectActivityViewModel.Insert_Backlog(user.UserId,movies[i].MovieId, date.text.toString(),Integer.parseInt(userrating.text.toString()),6)
+                                            }
+                                        }
+                                    }
+
+                                }
+                                popupWindow.dismiss()
+                                }
+                            break
+                        }
+
+                    }
+                    
+                }
+            }
+        }
     }
 
     fun showPopup(view: View) {
@@ -85,10 +265,12 @@ class MainMovieFragments : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         menuInflater.inflate(R.menu.navbar, menu)
         return true
     }
+
     override fun onMenuItemClick(item: MenuItem): Boolean {
         return when (item.title) {
             "My Collections"-> {
                 if (movie) {
+                    movie =false
                     scrollingProjectActivityViewModel.Get_Backlog_By_Id(user.UserId)
                 }
                 else
@@ -99,6 +281,7 @@ class MainMovieFragments : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
             }
             "Movie"-> {
                 if (!movie){
+                    movie =true
                     scrollingProjectActivityViewModel.Get_Movies()
                 }
                 else{
@@ -115,7 +298,4 @@ class MainMovieFragments : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
             else -> super.onContextItemSelected(item)
         }
     }
-
-
-
 }

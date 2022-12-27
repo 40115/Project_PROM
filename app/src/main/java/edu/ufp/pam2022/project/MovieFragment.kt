@@ -1,15 +1,24 @@
 package edu.ufp.pam2022.project
 
+import android.content.Context
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.PopupWindow
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.ufp.pam2022.project.library.Movie
+import java.util.zip.Inflater
 
 
 /**
@@ -17,7 +26,7 @@ import edu.ufp.pam2022.project.library.Movie
  */
 class MovieFragment(Movies: List<Movie>) : Fragment() {
 
-    private var columnCount = 1
+    private var columnCount = Movies.size
     private var movies:List<Movie>
     init {
       movies=Movies;
@@ -42,6 +51,9 @@ class MovieFragment(Movies: List<Movie>) : Fragment() {
                 layoutManager = when {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
+                }
+                view.setOnClickListener(){
+                  Toast.makeText(this.context,"Hello",Toast.LENGTH_LONG).show()
                 }
                 adapter = MyItemRecyclerViewAdapter(movies)
             }

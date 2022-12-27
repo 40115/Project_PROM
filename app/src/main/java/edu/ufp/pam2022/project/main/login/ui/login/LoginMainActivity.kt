@@ -111,7 +111,7 @@ class LoginMainActivity : AppCompatActivity() {
     }
 
     private fun showLoginFailed( errorString: Int) {
-        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+        Toast.makeText(applicationContext, "failed", Toast.LENGTH_SHORT).show()
         val intent = intent
         finish()
         startActivity(intent)

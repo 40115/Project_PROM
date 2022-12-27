@@ -30,7 +30,7 @@ class LoginViewModel(App: AppCompatActivity) : ViewModel() {
     enum class HttpAsyncMethod {
         GET, POST, PUT
     }
-    private val urlStr="http://192.168.1.97:8000"
+    private val urlStr="http://192.168.72.84:8000"
     private var volleyRequestQueue: RequestQueue
 
     init
