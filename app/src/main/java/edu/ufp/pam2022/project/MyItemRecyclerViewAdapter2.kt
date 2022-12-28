@@ -32,7 +32,7 @@ class MyItemRecyclerViewAdapter2(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        holder.idView.text = (item.BackLogId+1).toString()
+        holder.idView.text = (item.BackLogId).toString()
         holder.contentView.text = item.MovieName
     }
 

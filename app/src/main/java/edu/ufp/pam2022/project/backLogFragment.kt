@@ -17,7 +17,7 @@ import edu.ufp.pam2022.project.placeholder.PlaceholderContent
  */
 class backLogFragment(backlog: List<Backlog>)  : Fragment() {
 
-    private var columnCount = 1
+    private var columnCount = backlog.size
     private var Backlog:List<Backlog>
     init {
         Backlog=backlog

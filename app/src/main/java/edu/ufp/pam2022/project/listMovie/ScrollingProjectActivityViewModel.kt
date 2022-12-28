@@ -22,7 +22,7 @@ import java.time.LocalDate
 
 class ScrollingProjectActivityViewModel(App: AppCompatActivity) : ViewModel() {
 
-    private val urlStr="http://192.168.72.84:8000"
+    private val urlStr="http://192.168.1.97:8000"
     //192.168.1.97
     private var volleyRequestQueue: RequestQueue
     private val TAG_TO_CANCEL_HTTP_REQUEST = "TAG_TO_CANCEL_HTTP_REQUEST"
@@ -64,6 +64,17 @@ class ScrollingProjectActivityViewModel(App: AppCompatActivity) : ViewModel() {
             json.put("watchedDate", date)
             json.put("statusId", userstatus)
             json.put("rating", userrating)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        launchVolleyAsyncHttpRequest(urlStr, testQueryStr,HttpService.HttpAsyncMethod.POST,json)
+    }
+
+    fun Delete_Backlog(BacklogId: Int){
+        val testQueryStr = "/backlog/remove_movie_from_backlog"
+        val json= JSONObject()
+        try {
+            json.put("backlogId", BacklogId)
         } catch (e: JSONException) {
             e.printStackTrace()
         }
@@ -142,14 +153,14 @@ class ScrollingProjectActivityViewModel(App: AppCompatActivity) : ViewModel() {
                                         val json:JSONObject = response[i] as JSONObject
                                         backlog = if (json.isNull("userRating")) {
                                             Backlog(
-                                                -1,
+                                                json.getInt("backlogId"),
                                                 json.getString("movieName"),
                                                 json.getInt("movieId"),
                                                 json.getString("watchedDate"),
                                                 json.getInt("statusId"),
                                                 -1)
                                         } else{
-                                            Backlog(-1,json.getString("movieName"),json.getInt("movieId"),json.getString("watchedDate") , json.getInt("statusId"),json.getInt("userRating"))
+                                            Backlog(json.getInt("backlogId"),json.getString("movieName"),json.getInt("movieId"),json.getString("watchedDate") , json.getInt("statusId"),json.getInt("userRating"))
                                         }
                                         var j1=-1
                                         for (j in 0 until _Status.size)
