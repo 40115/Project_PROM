@@ -22,7 +22,7 @@ import edu.ufp.pam2022.project.services.SoundService
 
 class LoginMainActivity : AppCompatActivity() {
 
-   private lateinit var loginViewModel: LoginViewModel
+    private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

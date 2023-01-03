@@ -12,16 +12,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import edu.ufp.pam2022.project.MyItemRecyclerViewAdapter
-import edu.ufp.pam2022.project.MyItemRecyclerViewAdapter2
+import edu.ufp.pam2022.project.MovieItemRecyclerViewAdapter
+import edu.ufp.pam2022.project.BacklogRecyclerViewAdapter
 import edu.ufp.pam2022.project.R
 import edu.ufp.pam2022.project.databinding.ActivityMainMovieFragmentsBinding
 import edu.ufp.pam2022.project.library.User
 import edu.ufp.pam2022.project.main.login.ui.login.LoginMainActivity
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-
 
 class MainMovieFragments : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
     private lateinit var binding:ActivityMainMovieFragmentsBinding
@@ -57,35 +55,23 @@ class MainMovieFragments : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
             val loginState = it ?: return@Observer
 
              if (loginState.isNotEmpty()&& movie){
-                     val myItemRecyclerViewAdapter=
-                         MyItemRecyclerViewAdapter(loginState)
-                     reclird.adapter=myItemRecyclerViewAdapter
+                     val movieItemRecyclerViewAdapter=
+                         MovieItemRecyclerViewAdapter(loginState)
+                     reclird.adapter=movieItemRecyclerViewAdapter
                  }
-             else
-                 {
-
-             }
          })
 
         scrollingProjectActivityViewModel.Backlog.observe(this@MainMovieFragments, Observer
         {
             val loginState = it ?: return@Observer
             if (loginState.isNotEmpty() && !movie) {
-                val myItemRecyclerViewAdapter2=
-                    MyItemRecyclerViewAdapter2(loginState)
-                reclird.adapter=myItemRecyclerViewAdapter2
-                reclird.layoutManager=LinearLayoutManager(this)
+                val backlogRecyclerViewAdapter =
+                    BacklogRecyclerViewAdapter(loginState)
+                reclird.adapter = backlogRecyclerViewAdapter
+                reclird.layoutManager = LinearLayoutManager(this)
 
             }
-            else
-            {
-
-            }
-
-
         })
-
-
 
         button.setOnClickListener {
             val inputRec=stringinput.text.toString()
@@ -211,12 +197,18 @@ class MainMovieFragments : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
                                     }
 
                                     but.setOnClickListener() {
-                                        val date =
-                                            popupWindow.contentView.findViewById<TextView>(R.id.id_date_rel)
-                                        val impleDateFormat =
-                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-                                        val localDateTime =
-                                            LocalDateTime.parse(date.text, impleDateFormat)
+//                                        val date =
+//                                            popupWindow.contentView.findViewById<TextView>(R.id.id_date_rel)
+//                                        val impleDateFormat =
+//                                            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+//                                        val localDateTime =
+//                                            LocalDateTime.parse(date.text, impleDateFormat)
+                                        val date = popupWindow.contentView.findViewById<DatePicker>(R.id.datePicker1)
+                                        val dateObj = LocalDate.of(date.year, date.month+1, date.dayOfMonth)
+                                        val dateFormat = "MM-dd-yyyy" // mention the format you need
+                                        val dateStr = dateObj.format(DateTimeFormatter.ISO_DATE)
+//                                        val sdf = SimpleDateFormat(dateFormat, Locale.US)
+//                                        val dateStr = sdf.format(dateObj)
                                         val userrating =
                                             popupWindow.contentView.findViewById<TextView>(R.id.popup_Movie_rating_input)
                                         for (j in 1 until 7) {
@@ -226,7 +218,7 @@ class MainMovieFragments : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
                                                         scrollingProjectActivityViewModel.Insert_Backlog(
                                                             user.UserId,
                                                             movies[i].MovieId,
-                                                            localDateTime.toString(),
+                                                            dateStr,
                                                             Integer.parseInt(userrating.text.toString()),
                                                             1
                                                         )
@@ -237,7 +229,7 @@ class MainMovieFragments : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
                                                         scrollingProjectActivityViewModel.Insert_Backlog(
                                                             user.UserId,
                                                             movies[i].MovieId,
-                                                            date.text.toString(),
+                                                            dateStr,
                                                             Integer.parseInt(userrating.text.toString()),
                                                             2
                                                         )
@@ -248,7 +240,7 @@ class MainMovieFragments : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
                                                         scrollingProjectActivityViewModel.Insert_Backlog(
                                                             user.UserId,
                                                             movies[i].MovieId,
-                                                            date.text.toString(),
+                                                            dateStr,
                                                             Integer.parseInt(userrating.text.toString()),
                                                             3
                                                         )
@@ -259,7 +251,7 @@ class MainMovieFragments : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
                                                         scrollingProjectActivityViewModel.Insert_Backlog(
                                                             user.UserId,
                                                             movies[i].MovieId,
-                                                            date.text.toString(),
+                                                            dateStr,
                                                             Integer.parseInt(userrating.text.toString()),
                                                             4
                                                         )
@@ -270,7 +262,7 @@ class MainMovieFragments : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
                                                         scrollingProjectActivityViewModel.Insert_Backlog(
                                                             user.UserId,
                                                             movies[i].MovieId,
-                                                            date.text.toString(),
+                                                            dateStr,
                                                             Integer.parseInt(userrating.text.toString()),
                                                             5
                                                         )
@@ -281,7 +273,7 @@ class MainMovieFragments : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
                                                         scrollingProjectActivityViewModel.Insert_Backlog(
                                                             user.UserId,
                                                             movies[i].MovieId,
-                                                            date.text.toString(),
+                                                            dateStr,
                                                             Integer.parseInt(userrating.text.toString()),
                                                             6
                                                         )

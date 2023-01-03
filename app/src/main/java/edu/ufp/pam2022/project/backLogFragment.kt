@@ -9,8 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import edu.ufp.pam2022.project.library.Backlog
-import edu.ufp.pam2022.project.library.Movie
-import edu.ufp.pam2022.project.placeholder.PlaceholderContent
 
 /**
  * A fragment representing a list of Items.
@@ -43,7 +41,7 @@ class backLogFragment(backlog: List<Backlog>)  : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyItemRecyclerViewAdapter2(Backlog)
+                adapter = BacklogRecyclerViewAdapter(Backlog)
             }
         }
         return view

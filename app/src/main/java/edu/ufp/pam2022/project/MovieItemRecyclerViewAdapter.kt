@@ -2,19 +2,16 @@ package edu.ufp.pam2022.project
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import edu.ufp.pam2022.project.databinding.FragmentMovieBinding
 import edu.ufp.pam2022.project.library.Movie
-import java.sql.Date
 
 /**
  * [RecyclerView.Adapter] that can display a [Movie].
  * TODO: Replace the implementation with code for your data type.
  */
-class MyItemRecyclerViewAdapter(private val values: List<Movie>) : RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder>() {
+class MovieItemRecyclerViewAdapter(private val values: List<Movie>) : RecyclerView.Adapter<MovieItemRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         

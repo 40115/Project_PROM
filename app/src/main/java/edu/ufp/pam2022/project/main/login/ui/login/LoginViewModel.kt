@@ -30,7 +30,7 @@ class LoginViewModel(App: AppCompatActivity) : ViewModel() {
     enum class HttpAsyncMethod {
         GET, POST, PUT
     }
-    private val urlStr="http://192.168.1.97:8000"
+    private val urlStr="http://192.168.0.15:8000"
     private var volleyRequestQueue: RequestQueue
 
     init
@@ -57,7 +57,7 @@ class LoginViewModel(App: AppCompatActivity) : ViewModel() {
 
     fun loginDataChanged(username: String, password: String) {
         if (!isEmailvalid(username)) {
-            _loginForm.value = LoginFormState(EmailError = R.string.invalid_Email)
+            _loginForm.value = LoginFormState(EmailError = R.string.invalid_email)
         } else if (!isPasswordValid(password)) {
             _loginForm.value = LoginFormState(passwordError = R.string.invalid_password)
         } else {

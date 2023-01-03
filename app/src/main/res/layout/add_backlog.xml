@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/popup_window"
-    android:layout_width="560dp"
-    android:layout_height="400dp"
+    android:layout_width="250dp"
+    android:layout_height="475dp"
     android:background="#62def8"
     android:translationX="50dp"
-    android:translationY="100dp">
+    android:translationY="25dp">
 
     <TextView
         android:id="@+id/popup_Movie_Name"
@@ -30,25 +31,20 @@
         android:minHeight="48dp"
         android:selectAllOnFocus="true"
         android:textColorHint="#004D40"
-        android:translationX="30dp"
-        android:translationY="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/id_date_rel"
-        android:layout_width="197dp"
-        android:layout_height="48dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:inputType="datetime"
-        android:textColorHint="#546E7A"
-        android:translationX="30dp"
-        android:translationY="75dp" />
+    <DatePicker
+        android:id="@+id/datePicker1"
+        android:layout_width="match_parent"
+        android:layout_height="102dp"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        android:translationY="150dp" />
 
     <TableRow
-        android:id="@+id/tableRow2"
+        android:id="@+id/tableRow1"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_marginTop="50dp"
@@ -75,6 +71,16 @@
             android:layout_height="60dp"
             android:layout_weight="1"
             android:text="@string/completed" />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_marginTop="50dp"
+        android:translationX="0dp"
+        android:translationY="275dp">
 
         <RadioButton
             android:id="@+id/button4"
@@ -105,7 +111,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add"
-        android:translationX="230dp"
-        android:translationY="340dp" />
+        android:translationX="150dp"
+        android:translationY="425dp" />
 
 </RelativeLayout>
