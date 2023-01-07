@@ -22,7 +22,7 @@ import java.time.LocalDate
 
 class ScrollingProjectActivityViewModel(App: AppCompatActivity) : ViewModel() {
 
-    private val urlStr="http://192.168.0.15:8000"
+    private val urlStr="http://192.168.1.97:8000"
     //192.168.1.97
     private var volleyRequestQueue: RequestQueue
     private val TAG_TO_CANCEL_HTTP_REQUEST = "TAG_TO_CANCEL_HTTP_REQUEST"

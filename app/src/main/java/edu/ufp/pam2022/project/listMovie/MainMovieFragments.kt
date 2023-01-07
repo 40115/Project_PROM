@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.ufp.pam2022.project.MovieItemRecyclerViewAdapter
@@ -24,6 +25,7 @@ import java.time.format.DateTimeFormatter
 class MainMovieFragments : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
     private lateinit var binding:ActivityMainMovieFragmentsBinding
     private lateinit var scrollingProjectActivityViewModel : ScrollingProjectActivityViewModel
+    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var user : User
     private var movie= true
 
@@ -33,6 +35,7 @@ class MainMovieFragments : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         binding = ActivityMainMovieFragmentsBinding.inflate(layoutInflater)
         val stringinput = binding.inputString
         setContentView(binding.root)
+
         user=User(intent.getIntExtra("UserId",0),
             intent.getStringExtra("Username").toString(),
             intent.getStringExtra("Username").toString())

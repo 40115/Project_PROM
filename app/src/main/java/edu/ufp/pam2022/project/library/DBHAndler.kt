@@ -1,5 +1,6 @@
 package edu.ufp.pam2022.project.library
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
@@ -8,7 +9,14 @@ import android.database.sqlite.SQLiteOpenHelper
 
 class DBHAndler(context: Context) : SQLiteOpenHelper(context, "Project.db", null, 1) {
     var MovieTable = "Movies"
-
+    var Movie_Name = "name"
+    var Movie_synopsis = "synopsis"
+    var Movie_releaseDate = "releaseDate"
+    var Movie_imdbRating = "imdbRating"
+    var Movie_runTime = "runTime"
+    var Movie_cover = "cover"
+    var Movie_ageRatingId = "ageRatingId"
+    var Movie_imdbUrl = "imdbUrl"
 
     var UserTable = "Users"
     var User_Id="id"
@@ -85,5 +93,13 @@ class DBHAndler(context: Context) : SQLiteOpenHelper(context, "Project.db", null
         TODO("Not yet implemented")
     }
 
+
+    fun Add_Movie(movie: Movie){
+        var db=this.writableDatabase
+        val cv:ContentValues= ContentValues()
+        cv.put(Movie_Name,movie.Name)
+        cv.put(Movie_cover," ")
+
+    }
 
 }
