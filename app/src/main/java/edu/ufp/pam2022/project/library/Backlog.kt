@@ -1,10 +1,15 @@
 package edu.ufp.pam2022.project.library
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
 data class Backlog(
-    var BackLogId: Int,
-    var MovieName: String,
-    var MovieId: Int,
-    var WatchedDate: String,
-    var StatusId: Int,
-    var rating: Int,
+    @PrimaryKey var BackLogId: Int,
+    @ColumnInfo(name = "MovieName") var MovieName: String,
+    @ColumnInfo(name = "MovieId") var MovieId: Int,
+    @ColumnInfo(name = "WatchedDate") var WatchedDate: String,
+    @ColumnInfo(name = "StatusId") var StatusId: Int,
+    @ColumnInfo(name = "rating") var rating: Int,
                       )

@@ -13,10 +13,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import edu.ufp.pam2022.project.MovieItemRecyclerViewAdapter
 import edu.ufp.pam2022.project.BacklogRecyclerViewAdapter
 import edu.ufp.pam2022.project.R
 import edu.ufp.pam2022.project.databinding.ActivityMainMovieFragmentsBinding
+import edu.ufp.pam2022.project.library.AppDatabase
+import edu.ufp.pam2022.project.library.Backlog
 import edu.ufp.pam2022.project.library.User
 import edu.ufp.pam2022.project.main.login.ui.login.LoginMainActivity
 import java.time.LocalDate
@@ -35,6 +38,11 @@ class MainMovieFragments : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         binding = ActivityMainMovieFragmentsBinding.inflate(layoutInflater)
         val stringinput = binding.inputString
         setContentView(binding.root)
+
+        val db = Room.databaseBuilder(
+            applicationContext,
+             AppDatabase::class.java, "DataBase"
+        ).build()
 
         user=User(intent.getIntExtra("UserId",0),
             intent.getStringExtra("Username").toString(),
@@ -61,6 +69,7 @@ class MainMovieFragments : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
                      val movieItemRecyclerViewAdapter=
                          MovieItemRecyclerViewAdapter(loginState)
                      reclird.adapter=movieItemRecyclerViewAdapter
+                 reclird.layoutManager = LinearLayoutManager(this)
                  }
          })
 
@@ -72,7 +81,6 @@ class MainMovieFragments : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
                     BacklogRecyclerViewAdapter(loginState)
                 reclird.adapter = backlogRecyclerViewAdapter
                 reclird.layoutManager = LinearLayoutManager(this)
-
             }
         })
 

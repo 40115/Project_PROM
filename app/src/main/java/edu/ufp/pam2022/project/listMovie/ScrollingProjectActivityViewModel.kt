@@ -17,7 +17,6 @@ import edu.ufp.pam2022.project.services.repositoryVolley.VolleyRequest
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
-import java.time.LocalDate
 
 
 class ScrollingProjectActivityViewModel(App: AppCompatActivity) : ViewModel() {
@@ -100,7 +99,7 @@ class ScrollingProjectActivityViewModel(App: AppCompatActivity) : ViewModel() {
                             val list :ArrayList<Movie> =ArrayList()
                             for (i in 0 until response.length()) {
                               val json:JSONObject = response[i] as JSONObject
-                              val movie =Movie(json.getInt("id"),json.getString("name"), LocalDate.parse(json.getString("releaseDate")), json.getInt("imdbRating"),json.getString("runTime") ,json.getString("ageRating"))
+                              val movie =Movie(json.getInt("id"),json.getString("name"), json.getString("releaseDate"), json.getInt("imdbRating"),json.getString("runTime") ,json.getString("ageRating"))
                               list.add(movie)
                             }
                             _Movies.value=list
