@@ -9,9 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import edu.ufp.pam2022.project.MovieItemRecyclerViewAdapter
-import edu.ufp.pam2022.project.R
 import edu.ufp.pam2022.project.databinding.FragmentSlideshowBinding
 import edu.ufp.pam2022.project.library.Movie
 
@@ -29,7 +27,7 @@ class SlideshowFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val slideshowViewModel =
-            ViewModelProvider(this)[SlideshowViewModel::class.java]
+            ViewModelProvider(this, SlideshowViewModelFactory(this.requireActivity()))[SlideshowViewModel::class.java]
 
         _binding = FragmentSlideshowBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -39,6 +37,7 @@ class SlideshowFragment : Fragment() {
         slideshowViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
+
         slideshowViewModel.Movies.observe(viewLifecycleOwner, Observer {
             val loginState = it ?: return@Observer
             if (loginState.isNotEmpty()) {

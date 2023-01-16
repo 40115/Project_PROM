@@ -13,6 +13,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import edu.ufp.pam2022.project.Alt_Detailed_Activity.DrawerMainActivity
 import edu.ufp.pam2022.project.databinding.ActivityLoginMainBinding
 import edu.ufp.pam2022.project.library.User
 import edu.ufp.pam2022.project.listMovie.MainMovieFragments
@@ -103,7 +104,7 @@ class LoginMainActivity : AppCompatActivity() {
     }
 
     private fun updateUiWithUser(model: User) {
-        val switchActivityIntent = Intent(this, MainMovieFragments::class.java)
+        val switchActivityIntent = Intent(this, DrawerMainActivity::class.java)
         switchActivityIntent.putExtra("Username",model.Username)
         switchActivityIntent.putExtra("UserId",model.UserId)
         switchActivityIntent.putExtra("Email",model.Email)
