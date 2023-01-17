@@ -49,12 +49,16 @@ class GalleryViewModel(application: FragmentActivity) : ViewModel() {
 
     init {
 
-
         val DataBaseUserDao = AppDatabase.getDatabase(application).databaseUserDao()
         repository_User = DBUserRepository(DataBaseUserDao)
         Application=application
         val DataBaseStatusDao = AppDatabase.getDatabase(application).databaseStatusDao()
         repository_Status = DBStatusRepository(DataBaseStatusDao)
+
+        val DataBaseBacklogDao = AppDatabase.getDatabase(Application).databaseBacklogDao()
+        repository = DBBackLogRepository(DataBaseBacklogDao)
+        Backlog=repository.readAllData
+
         _user = repository_User.readAllData
         //=================== Setup Volley to make async HTTP Request ===================
         Log.e(this.javaClass.simpleName, "onCreate(): going to set VOLLEY context...")
@@ -80,9 +84,11 @@ class GalleryViewModel(application: FragmentActivity) : ViewModel() {
     }
 
     fun setRepository(){
-        val DataBaseBacklogDao = AppDatabase.getDatabase(Application).databaseBacklogDao()
-        repository = DBBackLogRepository(DataBaseBacklogDao)
-        Backlog = repository.readAllData
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.Get_Backlog_By_Id(user.UserId)
+            Backlog=repository.readAllData
+        }
+
     }
 
 fun addlistsBacklogsStatus(list :ArrayList<Backlog> ,list_Status :ArrayList<Status>){

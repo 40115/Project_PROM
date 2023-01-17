@@ -39,7 +39,7 @@ class GalleryFragment : Fragment() {
         galleryViewModel._user.observe(viewLifecycleOwner,Observer{
             val UserList = it ?: return@Observer
             galleryViewModel.user= UserList[0]
-            galleryViewModel.Get_Backlog_By_Id(galleryViewModel.user.UserId)
+            galleryViewModel.setRepository()
         })
 
 

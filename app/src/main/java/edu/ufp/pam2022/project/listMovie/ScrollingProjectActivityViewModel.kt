@@ -154,12 +154,13 @@ class ScrollingProjectActivityViewModel(App: AppCompatActivity) : ViewModel() {
                                             Backlog(
                                                 json.getInt("backlogId"),
                                                 json.getString("movieName"),
+                                                1,
                                                 json.getInt("movieId"),
                                                 json.getString("watchedDate"),
                                                 json.getInt("statusId"),
                                                 -1)
                                         } else{
-                                            Backlog(json.getInt("backlogId"),json.getString("movieName"),json.getInt("movieId"),json.getString("watchedDate") , json.getInt("statusId"),json.getInt("userRating"))
+                                            Backlog(json.getInt("backlogId"),json.getString("movieName"),1,json.getInt("movieId"),json.getString("watchedDate") , json.getInt("statusId"),json.getInt("userRating"))
                                         }
                                         var j1=-1
                                         for (j in 0 until _Status.size)
