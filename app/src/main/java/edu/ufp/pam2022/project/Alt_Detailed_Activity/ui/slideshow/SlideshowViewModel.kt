@@ -47,7 +47,6 @@ class SlideshowViewModel(application: FragmentActivity) : ViewModel() {
         repository_User = DBUserRepository(DataBaseUserDao)
         try {
             user = repository_User.readAllData.value?.get(0)!!
-
         }catch (e: Exception){
             Toast.makeText(application, "failed", Toast.LENGTH_SHORT).show()
 

@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import edu.ufp.pam2022.project.BacklogRecyclerViewAdapter
 import edu.ufp.pam2022.project.MovieItemRecyclerViewAdapter
 import edu.ufp.pam2022.project.databinding.FragmentGalleryBinding
+import edu.ufp.pam2022.project.library.AppDatabase
+import edu.ufp.pam2022.project.library.DBBackLogRepository
 import edu.ufp.pam2022.project.library.Movie
 
 class GalleryFragment : Fragment() {
@@ -33,6 +35,13 @@ class GalleryFragment : Fragment() {
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         val root: View = binding.root
         val reclird = binding.BacklogReclinerId
+
+        galleryViewModel._user.observe(viewLifecycleOwner,Observer{
+            val UserList = it ?: return@Observer
+            galleryViewModel.user= UserList[0]
+            galleryViewModel.Get_Backlog_By_Id(galleryViewModel.user.UserId)
+        })
+
 
         galleryViewModel.Backlog.observe(viewLifecycleOwner, Observer {
             val BacklogList = it ?: return@Observer

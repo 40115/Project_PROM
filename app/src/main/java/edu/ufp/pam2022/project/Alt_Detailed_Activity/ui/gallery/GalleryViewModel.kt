@@ -29,8 +29,11 @@ class GalleryViewModel(application: FragmentActivity) : ViewModel() {
     var Status : LiveData<List<Status>> = _Status
 
     var user : User= User(-1,"","")
+    var _user : LiveData<List<User>>
 
-    private var repository: DBBackLogRepository
+    private var Application : FragmentActivity
+
+    private lateinit var repository: DBBackLogRepository
     private var repository_Status: DBStatusRepository
     private var repository_User: DBUserRepository
     var checked = false
@@ -45,21 +48,14 @@ class GalleryViewModel(application: FragmentActivity) : ViewModel() {
     val text: LiveData<String> = _text
 
     init {
-        val DataBaseBacklogDao = AppDatabase.getDatabase(application).databaseBacklogDao()
-        repository = DBBackLogRepository(DataBaseBacklogDao)
-        Backlog = repository.readAllData
+
 
         val DataBaseUserDao = AppDatabase.getDatabase(application).databaseUserDao()
         repository_User = DBUserRepository(DataBaseUserDao)
-
+        Application=application
         val DataBaseStatusDao = AppDatabase.getDatabase(application).databaseStatusDao()
         repository_Status = DBStatusRepository(DataBaseStatusDao)
-
-        try {
-            user = repository_User.readAllData.value!![0]
-        }catch (e: Exception){
-            Toast.makeText(application, "failed", Toast.LENGTH_SHORT).show()
-        }
+        _user = repository_User.readAllData
         //=================== Setup Volley to make async HTTP Request ===================
         Log.e(this.javaClass.simpleName, "onCreate(): going to set VOLLEY context...")
         // Get RequestQueue to execute async calls
@@ -81,6 +77,12 @@ class GalleryViewModel(application: FragmentActivity) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             repository_Status.addStatus(status)
         }
+    }
+
+    fun setRepository(){
+        val DataBaseBacklogDao = AppDatabase.getDatabase(Application).databaseBacklogDao()
+        repository = DBBackLogRepository(DataBaseBacklogDao)
+        Backlog = repository.readAllData
     }
 
 fun addlistsBacklogsStatus(list :ArrayList<Backlog> ,list_Status :ArrayList<Status>){
@@ -124,12 +126,13 @@ fun addlistsBacklogsStatus(list :ArrayList<Backlog> ,list_Status :ArrayList<Stat
                                             Backlog(
                                                 json.getInt("backlogId"),
                                                 json.getString("movieName"),
+                                                user.UserId,
                                                 json.getInt("movieId"),
                                                 json.getString("watchedDate"),
                                                 json.getInt("statusId"),
                                                 -1)
                                         } else{
-                                            Backlog(json.getInt("backlogId"),json.getString("movieName"),json.getInt("movieId"),json.getString("watchedDate") , json.getInt("statusId"),json.getInt("userRating"))
+                                            Backlog(json.getInt("backlogId"),json.getString("movieName"), user.UserId,json.getInt("movieId"),json.getString("watchedDate") , json.getInt("statusId"),json.getInt("userRating"))
                                         }
                                         var j1=-1
                                         for (j in 0 until list_Status.size)

@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey
 data class Backlog(
     @PrimaryKey var BackLogId: Int,
     @ColumnInfo(name = "MovieName") var MovieName: String,
+    @ColumnInfo(name = "UserId") var UserId: Int,
     @ColumnInfo(name = "MovieId") var MovieId: Int,
     @ColumnInfo(name = "WatchedDate") var WatchedDate: String,
     @ColumnInfo(name = "StatusId") var StatusId: Int,
