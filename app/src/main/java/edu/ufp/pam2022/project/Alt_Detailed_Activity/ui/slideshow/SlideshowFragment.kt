@@ -31,7 +31,7 @@ class SlideshowFragment : Fragment() {
 
         _binding = FragmentSlideshowBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        val reclird = binding.MoviesReclinerId
+        val reclird = binding.MovieReclinerId
 
         val textView: TextView = binding.textSlideshow
         slideshowViewModel.text.observe(viewLifecycleOwner) {
@@ -39,21 +39,28 @@ class SlideshowFragment : Fragment() {
         }
 
         slideshowViewModel.Movies.observe(viewLifecycleOwner, Observer {
-            val loginState = it ?: return@Observer
-            if (loginState.isNotEmpty()) {
+            val movieList = it ?: return@Observer
+            if (!movieList.isEmpty()) {
                 val movieItemRecyclerViewAdapter=
-                    MovieItemRecyclerViewAdapter(loginState)
+                    MovieItemRecyclerViewAdapter(movieList)
                 reclird.adapter=movieItemRecyclerViewAdapter
                 reclird.layoutManager = LinearLayoutManager(this.context)
             }
             else
             {
-                val empty_Movie=Movie(-1,"Movies Empty","",0,"","")
-                val  empty : MutableList<Movie> = mutableListOf(empty_Movie)
-                val movieItemRecyclerViewAdapter=
-                    MovieItemRecyclerViewAdapter(empty)
-                reclird.adapter=movieItemRecyclerViewAdapter
-                reclird.layoutManager = LinearLayoutManager(this.context)
+                if (slideshowViewModel.checked) {
+                    val empty_Movie = Movie(-1, "Movies Empty", "", 0, "", "")
+                    val empty: MutableList<Movie> = mutableListOf(empty_Movie)
+                    val movieItemRecyclerViewAdapter =
+                        MovieItemRecyclerViewAdapter(empty)
+                    reclird.adapter = movieItemRecyclerViewAdapter
+                    reclird.layoutManager = LinearLayoutManager(this.context)
+                }
+                else
+                {
+                    slideshowViewModel.Get_Movies()
+                    slideshowViewModel.checked=true
+                }
             }
         })
 

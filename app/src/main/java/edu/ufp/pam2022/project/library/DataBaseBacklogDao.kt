@@ -1,5 +1,6 @@
 package edu.ufp.pam2022.project.library
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -8,9 +9,12 @@ import androidx.room.Query
 interface DataBaseBacklogDao {
 
     @Query("SELECT * FROM Backlog")
-    fun Backlog_getAll(): List<Backlog>
+    fun Backlog_getAll(): LiveData<List<Backlog>>
 
     @Insert
     fun Backlog_insertAll(vararg backlogs: Backlog)
+
+    @Query("DELETE FROM Backlog")
+    fun Backlog_delete()
 
 }

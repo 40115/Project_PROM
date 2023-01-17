@@ -39,11 +39,6 @@ class MainMovieFragments : AppCompatActivity(), PopupMenu.OnMenuItemClickListene
         val stringinput = binding.inputString
         setContentView(binding.root)
 
-        val db = Room.databaseBuilder(
-            applicationContext,
-             AppDatabase::class.java, "DataBase"
-        ).build()
-
         user=User(intent.getIntExtra("UserId",0),
             intent.getStringExtra("Username").toString(),
             intent.getStringExtra("Username").toString())

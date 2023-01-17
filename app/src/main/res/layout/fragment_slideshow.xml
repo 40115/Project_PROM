@@ -7,7 +7,7 @@
     tools:context=".Alt_Detailed_Activity.ui.slideshow.SlideshowFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/Movies_Recliner_id"
+        android:id="@+id/Movie_Recliner_id"
         android:layout_width="593dp"
         android:layout_height="550dp"
         android:layout_marginStart="70dp"

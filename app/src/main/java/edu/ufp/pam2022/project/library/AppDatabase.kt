@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 
-    @Database(entities = [Backlog::class,Movie::class,Genre::class], version = 2)
+    @Database(entities = [Backlog::class, Movie::class, Genre::class,User::class ,Status::class], version = 4)
     abstract class AppDatabase : RoomDatabase() {
 
         abstract fun databaseMovieDao(): DataBaseMovieDao
@@ -14,6 +14,11 @@ import androidx.room.RoomDatabase
         abstract fun databaseBacklogDao(): DataBaseBacklogDao
 
         abstract fun databaseGenreDao(): DataBaseGenreDao
+
+        abstract fun databaseUserDao() : DataBaseUserDao
+
+        abstract fun databaseStatusDao() : DataBaseStatusDao
+
 
         companion object {
             @Volatile

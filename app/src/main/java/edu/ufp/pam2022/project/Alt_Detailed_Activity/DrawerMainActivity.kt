@@ -12,9 +12,12 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import edu.ufp.pam2022.project.R
 import edu.ufp.pam2022.project.databinding.ActivityDrawerMainBinding
 import edu.ufp.pam2022.project.library.User
+import edu.ufp.pam2022.project.listMovie.ScrollingProjectActivityViewModel
+import edu.ufp.pam2022.project.listMovie.ScrollingProjectActivityViewModelFactory
 import edu.ufp.pam2022.project.main.login.ui.login.LoginMainActivity
 
 class DrawerMainActivity : AppCompatActivity() {
@@ -22,7 +25,7 @@ class DrawerMainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityDrawerMainBinding
     private lateinit var user : User
-
+    lateinit var scrollingProjectActivityViewModel : DrawerMainViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,14 +35,17 @@ class DrawerMainActivity : AppCompatActivity() {
         setSupportActionBar(binding.appBarDrawerMain.toolbar)
 
         user= User(intent.getIntExtra("UserId",0),
-            intent.getStringExtra("Username").toString(),
-            intent.getStringExtra("Username").toString())
+            "Username",
+            "Email")
         if(user.UserId==0){
             val intent = Intent(this@DrawerMainActivity, LoginMainActivity::class.java)
             intent.putExtra("EXIT", false)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             startActivity(intent)
         }
+
+        scrollingProjectActivityViewModel = ViewModelProvider(this, DrawerMainViewModelFactory(this))[DrawerMainViewModel::class.java]
+        scrollingProjectActivityViewModel.Rest_Table_Users(user)
 
         binding.appBarDrawerMain.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
