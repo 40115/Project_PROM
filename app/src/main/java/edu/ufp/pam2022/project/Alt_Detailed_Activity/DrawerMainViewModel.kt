@@ -16,9 +16,11 @@ class DrawerMainViewModel(App: AppCompatActivity) : ViewModel() {
     val _Users=MutableLiveData<List<User>>()
     var User : LiveData<List<User>> =_Users
     private var repository: DBUserRepository
-
+    private var repository_backlog: DBBackLogRepository
     init {
         val Userdao = AppDatabase.getDatabase(App).databaseUserDao()
+        val backlogdao = AppDatabase.getDatabase(App).databaseBacklogDao()
+        repository_backlog=DBBackLogRepository(backlogdao)
         repository = DBUserRepository(Userdao)
         User = repository.readAllData
     }
@@ -27,6 +29,7 @@ class DrawerMainViewModel(App: AppCompatActivity) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.DeleteUser()
             repository.addUser(user)
+            repository_backlog.CLear_Backlog()
         }
     }
 

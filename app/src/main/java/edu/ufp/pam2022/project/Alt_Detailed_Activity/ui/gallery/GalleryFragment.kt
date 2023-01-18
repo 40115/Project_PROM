@@ -40,34 +40,35 @@ class GalleryFragment : Fragment() {
             val UserList = it ?: return@Observer
             galleryViewModel.user= UserList[0]
             galleryViewModel.setRepository()
-        })
-
-
-        galleryViewModel.Backlog.observe(viewLifecycleOwner, Observer {
-            val BacklogList = it ?: return@Observer
-            if (BacklogList.isNotEmpty()) {
-                val backlogItemRecyclerViewAdapter=
-                    BacklogRecyclerViewAdapter(BacklogList)
-                reclird.adapter=backlogItemRecyclerViewAdapter
-                reclird.layoutManager = LinearLayoutManager(this.context)
-            }
-            else
-            {
-                if (galleryViewModel.checked) {
-                    val empty_Movie = Movie(-1, "Movies Empty", "", 0, "", "")
-                    val empty: MutableList<Movie> = mutableListOf(empty_Movie)
-                    val movieItemRecyclerViewAdapter =
-                        MovieItemRecyclerViewAdapter(empty)
-                    reclird.adapter = movieItemRecyclerViewAdapter
+            galleryViewModel.Backlog.observe(viewLifecycleOwner, Observer {
+                val BacklogList = it ?: return@Observer
+                if (BacklogList.isNotEmpty()) {
+                    val backlogItemRecyclerViewAdapter=
+                        BacklogRecyclerViewAdapter(BacklogList)
+                    reclird.adapter=backlogItemRecyclerViewAdapter
                     reclird.layoutManager = LinearLayoutManager(this.context)
                 }
                 else
                 {
-                    galleryViewModel.Get_Backlog_By_Id(galleryViewModel.user.UserId)
-                    galleryViewModel.checked=true
+                    if (galleryViewModel.checked) {
+                        val empty_Movie = Movie(-1, "Movies Empty", "", 0, "", "")
+                        val empty: MutableList<Movie> = mutableListOf(empty_Movie)
+                        val movieItemRecyclerViewAdapter =
+                            MovieItemRecyclerViewAdapter(empty)
+                        reclird.adapter = movieItemRecyclerViewAdapter
+                        reclird.layoutManager = LinearLayoutManager(this.context)
+                    }
+                    else
+                    {
+                        galleryViewModel.Get_Backlog_By_Id(galleryViewModel.user.UserId)
+                        galleryViewModel.checked=true
+                    }
                 }
-            }
+            })
         })
+
+
+
 
         val textView: TextView = binding.textGallery
         galleryViewModel.text.observe(viewLifecycleOwner) {
