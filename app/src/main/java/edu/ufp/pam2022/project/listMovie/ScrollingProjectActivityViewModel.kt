@@ -21,7 +21,7 @@ import org.json.JSONObject
 
 class ScrollingProjectActivityViewModel(App: AppCompatActivity) : ViewModel() {
 
-    private val urlStr="http://192.168.1.97:8000"
+    private val urlStr="http://192.168.0.15:8000"
     //192.168.1.97
     private var volleyRequestQueue: RequestQueue
     private val TAG_TO_CANCEL_HTTP_REQUEST = "TAG_TO_CANCEL_HTTP_REQUEST"
@@ -30,6 +30,8 @@ class ScrollingProjectActivityViewModel(App: AppCompatActivity) : ViewModel() {
     private val _BackLog = MutableLiveData<List<Backlog>>()
     var Backlog:LiveData<List<Backlog>> = _BackLog
     private val _Status:ArrayList<Status> = ArrayList()
+
+
     init
     {
         //=================== Setup Volley to make async HTTP Request ===================
@@ -160,7 +162,7 @@ class ScrollingProjectActivityViewModel(App: AppCompatActivity) : ViewModel() {
                                                 json.getInt("statusId"),
                                                 -1)
                                         } else{
-                                            Backlog(json.getInt("backlogId"),json.getString("movieName"),1,json.getInt("movieId"),json.getString("watchedDate") , json.getInt("statusId"),json.getInt("userRating"))
+                                            Backlog(json.getInt("backlogId"),json.getString("movieName"),json.getInt("movieId"), 1, json.getString("watchedDate") , json.getInt("statusId"),json.getInt("userRating"))
                                         }
                                         var j1=-1
                                         for (j in 0 until _Status.size)

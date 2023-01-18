@@ -24,7 +24,7 @@ class RegisterViewModel (App: AppCompatActivity) : ViewModel() {
     val loginFormState: LiveData<LoginFormState> = _loginForm
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
-    private val urlStr="http://192.168.1.97:8000"
+    private val urlStr="http://192.168.0.15:8000"
     private var volleyRequestQueue: RequestQueue
     private val TAG_TO_CANCEL_HTTP_REQUEST = "TAG_TO_CANCEL_HTTP_REQUEST"
     init

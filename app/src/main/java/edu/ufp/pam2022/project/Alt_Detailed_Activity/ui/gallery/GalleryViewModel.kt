@@ -37,7 +37,7 @@ class GalleryViewModel(application: FragmentActivity) : ViewModel() {
     private var repository_Status: DBStatusRepository
     private var repository_User: DBUserRepository
     var checked = false
-    private val urlStr="http://192.168.1.97:8000"
+    private val urlStr="http://192.168.0.15:8000"
     //192.168.1.97
     private var volleyRequestQueue: RequestQueue
     private val TAG_TO_CANCEL_HTTP_REQUEST = "TAG_TO_CANCEL_HTTP_REQUEST"
@@ -140,21 +140,18 @@ fun addlistsBacklogsStatus(list :ArrayList<Backlog> ,list_Status :ArrayList<Stat
                                         } else{
                                             Backlog(json.getInt("backlogId"),json.getString("movieName"), user.UserId,json.getInt("movieId"),json.getString("watchedDate") , json.getInt("statusId"),json.getInt("userRating"))
                                         }
-                                        var j1=-1
+                                        // var j1=-1
+                                        var bool = false
                                         for (j in 0 until list_Status.size)
                                         {
                                             if (list_Status[j].StatusId == json.getInt("statusId"))
                                             {
+                                                bool = true
                                                 break
                                             }
-                                            else
-                                            {
-                                                j1=j
-                                            }
                                         }
-                                        if (j1==-1|| j1+1==list_Status.size){
+                                        if (!bool){
                                             list_Status.add(Status(json.getInt("statusId"),json.getString("status")))
-
                                         }
                                         list.add(backlog)
                                     }

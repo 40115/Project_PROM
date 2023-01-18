@@ -6,8 +6,10 @@ class DBMovieRepository(private val MovieDao: DataBaseMovieDao) {
 
     val readAllData: LiveData<List<Movie>> = MovieDao.Movie_getAll()
 
-    suspend fun addUser(Movie: Movie){
+    suspend fun addMovie(Movie: Movie){
         MovieDao.Movie_insertAll(Movie)
     }
+
+
 
 }

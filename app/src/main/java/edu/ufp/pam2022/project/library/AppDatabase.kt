@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 
-    @Database(entities = [Backlog::class, Movie::class, Genre::class,User::class ,Status::class], version = 5)
+    @Database(entities = [Backlog::class, Movie::class, Genre::class,User::class ,Status::class], version = 6)
     abstract class AppDatabase : RoomDatabase() {
 
         abstract fun databaseMovieDao(): DataBaseMovieDao

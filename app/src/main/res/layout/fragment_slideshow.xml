@@ -10,7 +10,7 @@
         android:id="@+id/Movie_Recliner_id"
         android:layout_width="593dp"
         android:layout_height="550dp"
-        android:layout_marginStart="70dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="1dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_slideshow" />
@@ -30,4 +30,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/input_string"
+        android:layout_width="228dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginBottom="4dp"
+        android:ems="10"
+        android:hint="@string/movie_select"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/Movie_Recliner_id"
+        app:layout_constraintStart_toStartOf="@+id/Movie_Recliner_id"
+        android:autofillHints="" />
+
+    <Button
+        android:id="@+id/button_input"
+        android:layout_width="108dp"
+        android:layout_height="61dp"
+        android:layout_marginBottom="1dp"
+        android:hint="@string/add"
+        app:layout_constraintBottom_toBottomOf="@+id/Movie_Recliner_id"
+        app:layout_constraintStart_toEndOf="@+id/input_string" />
 </androidx.constraintlayout.widget.ConstraintLayout>
