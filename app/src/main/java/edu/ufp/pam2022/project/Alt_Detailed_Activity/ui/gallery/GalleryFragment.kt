@@ -51,11 +51,12 @@ class GalleryFragment : Fragment() {
             galleryViewModel.setRepository()
             galleryViewModel.Backlog.observe(viewLifecycleOwner, Observer {
                 val BacklogList = it ?: return@Observer
-                if (BacklogList.isNotEmpty()) {
+                if (BacklogList.isNotEmpty() && galleryViewModel.checked) {
                     val backlogItemRecyclerViewAdapter=
                         BacklogRecyclerViewAdapter(BacklogList)
                     reclird.adapter=backlogItemRecyclerViewAdapter
                     reclird.layoutManager = LinearLayoutManager(this.context)
+                    galleryViewModel._Backlog.value= BacklogList
                 }
                 else
                 {
@@ -83,7 +84,7 @@ class GalleryFragment : Fragment() {
             }
             else
             {
-                val backlog = galleryViewModel.Backlog.value
+                val backlog = galleryViewModel._Backlog.value
                 if (backlog != null)
                 {
                     if (backlog.isNotEmpty()) {

@@ -8,6 +8,7 @@ class DBBackLogRepository(private val BackLogDao: DataBaseBacklogDao) {
 
     suspend fun addBacklog(backlog: Backlog){
         BackLogDao.Backlog_insertAll(backlog)
+        readAllData  = BackLogDao.Backlog_getAll()
     }
 
     suspend fun CLear_Backlog(){

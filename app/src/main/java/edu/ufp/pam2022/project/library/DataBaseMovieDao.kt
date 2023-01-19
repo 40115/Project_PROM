@@ -18,4 +18,7 @@ interface DataBaseMovieDao {
         @Query("DELETE FROM Movie")
         fun Movie_delete()
 
+        @Query("SELECT * FROM Movie where MovieId = :id")
+        fun Movie_getOne(id: Int) : LiveData<List<Movie>>
+
 }

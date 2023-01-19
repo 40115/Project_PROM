@@ -1,7 +1,6 @@
 package edu.ufp.pam2022.project.Alt_Detailed_Activity.ui.slideshow
 
 import android.util.Log
-import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -28,8 +27,10 @@ class SlideshowViewModel(application: FragmentActivity) : ViewModel() {
     var _user : LiveData<List<User>>
 
     private var repository: DBMovieRepository
+    private var repository_Backlog: DBBackLogRepository
+
     var checked = false
-    private val urlStr="http://192.168.0.15:8000"
+    private val urlStr="http://192.168.1.97:8000"
     //192.168.1.97
     private var volleyRequestQueue: RequestQueue
     private var repository_User: DBUserRepository
@@ -48,6 +49,9 @@ class SlideshowViewModel(application: FragmentActivity) : ViewModel() {
         val DataBaseUserDao = AppDatabase.getDatabase(application).databaseUserDao()
         repository_User = DBUserRepository(DataBaseUserDao)
         _user = repository_User.readAllData
+
+        val DataBaseBacklogDao = AppDatabase.getDatabase(application).databaseBacklogDao()
+        repository_Backlog = DBBackLogRepository(DataBaseBacklogDao)
 
         //=================== Setup Volley to make async HTTP Request ===================
         Log.e(this.javaClass.simpleName, "onCreate(): going to set VOLLEY context...")
@@ -78,7 +82,7 @@ class SlideshowViewModel(application: FragmentActivity) : ViewModel() {
         } catch (e: JSONException) {
             e.printStackTrace()
         }
-        launchVolleyAsyncHttpRequest("http://192.168.0.15:8000", testQueryStr,
+        launchVolleyAsyncHttpRequest(urlStr, testQueryStr,
             HttpService.HttpAsyncMethod.POST, json)
     }
 

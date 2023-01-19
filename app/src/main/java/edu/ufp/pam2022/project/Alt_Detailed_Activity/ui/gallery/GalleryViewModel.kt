@@ -38,7 +38,7 @@ class GalleryViewModel(application: FragmentActivity) : ViewModel() {
     private var repository_Status: DBStatusRepository
     private var repository_User: DBUserRepository
     var checked = false
-    private val urlStr="http://192.168.0.15:8000"
+    private val urlStr="http://192.168.1.97:8000"
     //192.168.1.97
     private var volleyRequestQueue: RequestQueue
     private val TAG_TO_CANCEL_HTTP_REQUEST = "TAG_TO_CANCEL_HTTP_REQUEST"
@@ -240,6 +240,7 @@ class GalleryViewModel(application: FragmentActivity) : ViewModel() {
                                 try {
                                     viewModelScope.launch(Dispatchers.IO) {
                                         repository.CLear_Backlog()
+                                        checked = false
                                     }
                                 }catch (JSONException :JSONException){
                                     Log.e(
