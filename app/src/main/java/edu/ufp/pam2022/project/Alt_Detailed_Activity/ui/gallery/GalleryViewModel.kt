@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.JsonObjectRequest
 import edu.ufp.pam2022.project.library.*
 import edu.ufp.pam2022.project.services.HttpService
 import edu.ufp.pam2022.project.services.repositoryVolley.VolleyRequest
@@ -91,19 +92,30 @@ class GalleryViewModel(application: FragmentActivity) : ViewModel() {
 
     }
 
-fun addlistsBacklogsStatus(list :ArrayList<Backlog> ,list_Status :ArrayList<Status>){
-    viewModelScope.launch(Dispatchers.IO) {
-        repository_Status.Clear_Status()
-        repository.CLear_Backlog()
-        for (j in 0 until list_Status.size)
-        {
-            repository_Status.addStatus(list_Status[j])
-        }
-        for (j in 0 until list.size){
-            repository.addBacklog(list[j])
+    fun addlistsBacklogsStatus(list :ArrayList<Backlog> ,list_Status :ArrayList<Status>){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository_Status.Clear_Status()
+            repository.CLear_Backlog()
+            for (j in 0 until list_Status.size)
+            {
+                repository_Status.addStatus(list_Status[j])
+            }
+            for (j in 0 until list.size){
+                repository.addBacklog(list[j])
+            }
         }
     }
-}
+
+    fun Delete_Backlog(BacklogId: Int){
+        val testQueryStr = "/backlog/remove_movie_from_backlog"
+        val json= JSONObject()
+        try {
+            json.put("backlogId", BacklogId)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        launchVolleyAsyncHttpRequest(urlStr, testQueryStr, HttpService.HttpAsyncMethod.POST, json)
+    }
 
     fun launchVolleyAsyncHttpRequest(urlStr: String, queryStr: String, type: HttpService.HttpAsyncMethod, Json: JSONArray): Any{
 
@@ -181,6 +193,79 @@ fun addlistsBacklogsStatus(list :ArrayList<Backlog> ,list_Status :ArrayList<Stat
             }
             HttpService.HttpAsyncMethod.PUT -> {
                 val stringRequest = JsonArrayRequest(
+                    Request.Method.PUT, url, Json,
+                    { //Handle Response
+                            response ->
+                        Log.e(
+                            this.javaClass.simpleName,
+                            "launchVolleyAsyncHttpRequest(): Response.Listener Response=${response}"
+                        )
+                    },
+                    { //Handle Error
+                            error ->
+                        Log.e(
+                            this.javaClass.simpleName,
+                            "launchVolleyAsyncHttpRequest(): Response.Listener Error=$error"
+                        )
+                    }
+                )
+                // Set the cancel tag on the request
+
+                stringRequest.tag = TAG_TO_CANCEL_HTTP_REQUEST
+                // Add the request to the RequestQueue.
+                volleyRequestQueue.add(stringRequest)
+                return stringRequest
+            }
+            else -> return ""
+        }
+    }
+
+    fun launchVolleyAsyncHttpRequest(urlStr: String, queryStr: String, type: HttpService.HttpAsyncMethod, Json: JSONObject): Any{
+
+        val url = "$urlStr$queryStr"
+        Log.e(this.javaClass.simpleName, "launchVolleyAsyncHttpRequest(): url=$url")
+
+        when (type) {
+            HttpService.HttpAsyncMethod.POST -> {
+                val stringRequest = JsonObjectRequest(
+                    Request.Method.POST, url, Json, { //Handle Response
+                            response ->
+                        Log.e(
+                            this.javaClass.simpleName,
+                            "launchVolleyAsyncHttpRequest(): Response.Listener Response=${response}"
+                        )
+
+                        when(queryStr){
+                            "/backlog/remove_movie_from_backlog"-> {
+                                try {
+                                    viewModelScope.launch(Dispatchers.IO) {
+                                        repository.CLear_Backlog()
+                                    }
+                                }catch (JSONException :JSONException){
+                                    Log.e(
+                                        this.javaClass.simpleName,
+                                        "launchVolleyAsyncHttpRequest(): Response.Listener Error=${JSONException}"
+                                    )
+                                }
+                            }
+                        }
+                    }, { //Handle Error
+                            error ->
+                        Log.e(
+                            this.javaClass.simpleName,
+                            "launchVolleyAsyncHttpRequest(): Response.Listener Error=$error"
+                        )
+                        _Backlog.value= emptyList()
+                    }
+                )
+                // Set the cancel tag on the request
+                stringRequest.tag = TAG_TO_CANCEL_HTTP_REQUEST
+                // Add the request to the RequestQueue.
+                volleyRequestQueue.add(stringRequest)
+                return stringRequest
+            }
+            HttpService.HttpAsyncMethod.PUT -> {
+                val stringRequest = JsonObjectRequest(
                     Request.Method.PUT, url, Json,
                     { //Handle Response
                             response ->
